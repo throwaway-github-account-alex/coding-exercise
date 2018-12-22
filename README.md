@@ -11,7 +11,8 @@ Can be updated at any time to receive updates
 - Expected to be tested and TDD approach would be good
 - written with maintainability in mind
 
-##Initial thoughts
+## Initial thoughts
+
 The schedule representation is easily represented as a bitfield. Look ups for whether the schedule requires the heater
 to be on/off can be done in constant time O(1). Taking the current time, representing it as the total minutes passed for
  the present day and then dividing that value by the schedule precision (30 minutes).
@@ -31,14 +32,15 @@ polling function can take a timeout parameter. However this functionality is pla
 probably a way to do it using `boost::asio`. There's also fgets (no timeout), select (posix), poll (posix), and other IO
 methods. It's making the separate thread style look simpler.
 
-###Producer / Consumer style
+### Producer / Consumer style
+
 To simplify this, the process thread could be used for collecting schedule updates and a separate thread could be
 spawned, to check the schedule. The main thread could then pass new schedules to this separate thread,
 or kill the thread, if the user decides to quit.
 + Allows getLine to block the process thread, without stopping the schedule operation.
 - Multi-threading consideration.
 
-###Single event loop style
+### Single event loop style
 + No consideration is required for threading, potentially simplifying the code.
 - Methods to poll stdin, don't look platform independent, and looks like using a platform independent option is more
   complex than I would like.
@@ -47,7 +49,7 @@ or kill the thread, if the user decides to quit.
 I imagine with both of these patterns will be as equally unit testable, so long as the key components are separated out.
  Additionally, by overriding the time input it should be possible to check the behavior over an entire day.
 
-##Assumptions
+## Assumptions
 + It's OK to stop the program with any invalid input.
 + It's implied, but not explicitly said, only output changes to the current heater state are written, rather than
   outputs every 30 minutes.
@@ -60,17 +62,17 @@ I imagine with both of these patterns will be as equally unit testable, so long 
 
 This works for me in the command line, with llvm clang and cmake installed along with [CLion](https://www.jetbrains.com/clion/).
 
-####clean
+#### clean
 `cmake --build /home/alex/Documents/coding-exercise/cmake-build-release --target clean -- -j 2`
 
-####Build release
+#### Build release
 `cmake --build /home/alex/Documents/coding-exercise/cmake-build-release --target all -- -j 2`
 
-##Project review
+## Project review
 
 I think I've got it working correctly, it appears to be working on my system correctly, with different schedules.
 
-![screenshot of code producing expected result given input]("https://raw.githubusercontent.com/throwaway-github-account-alex/coding-exercise/master/ProgramScreenshot.png" "Expected result photo given input at 2018-12-22T18-13-54")
+![Expected result photo given input at 2018-12-22T18-13-54](https://raw.githubusercontent.com/throwaway-github-account-alex/coding-exercise/master/ProgramScreenshot.png)
 
 I would have liked to get the unit testing working - and I made the mistake of attempting to setup the eco-system (CLion,
 cmake and googletest) at the same time as starting the test. I might fix the unit test build if I have some spare time. I had intended on testing it by iterating through the potential minutes in the day and with with a given schedule.
