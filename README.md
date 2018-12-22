@@ -44,14 +44,16 @@ or kill the thread, if the user decides to quit.
 + No consideration is required for threading, potentially simplifying the code.
 - Methods to poll stdin, don't look platform independent, and looks like using a platform independent option is more
   complex than I would like.
++ The specification given by Ben doesn't mention that it needs to be multi-platform.
 
 I imagine with both of these patterns will be as equally unit testable, so long as the key components are separated out.
  Additionally, by overriding the time input it should be possible to check the behavior over an entire day.
 
 ##Assumptions
-+ Stop the program by 'Esc' key.
++ Stop the program with any invalid input.
 + It's implied, but not explicitly said, only output changes to the current heater state are written, rather than
   outputs every 30 minutes.
++ '\n' delimits the input schedule string.
 + Responsiveness to user input.
 + I'll assume, faster is better.
 + If the schedule updates, and the current 30 minute period changes heater status changes, the program should update the
