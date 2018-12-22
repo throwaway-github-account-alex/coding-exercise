@@ -22,8 +22,10 @@ public: // Public interface
     // If True is returned, the update was successful. False otherwise.
     bool UpdateSchedule(const std::string& scheduleStr);
 
+    // Check the current schedule to see if the heater needs switching on/off
     void CheckSchedule();
 
+    // Get the number of minutes to the start of the next scheduler update.
     uint16_t GetMinsToNextPeriodStart() const;
 
 protected: // internal methods
@@ -31,6 +33,9 @@ protected: // internal methods
     // virtual to aid unit testing.
     // Returns a uint16_t to represent the number of minutes passed in the current day.
     virtual uint16_t GetMinsSinceStartOfDay() const;
+
+    // Update the heater state output
+    virtual void UpdateHeaterState(bool heaterState);
 
     // Get the heater status, separating this out from GetCurrentTimeMins, makes the code more unit-testable.
     bool GetHeaterStatus(std::uint16_t currentTimeInMinutes) const;

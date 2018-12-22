@@ -58,3 +58,4 @@ I imagine with both of these patterns will be as equally unit testable, so long 
 + I'll assume, faster is better.
 + If the schedule updates, and the current 30 minute period changes heater status changes, the program should update the
   heater status immediately, rather than waiting until the next 30 minute period.
+

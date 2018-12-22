@@ -8,8 +8,7 @@
 
 using namespace std;
 
-// this method waits for input from the user or a timeout, the return val indicates the result of this.#
-// <
+// this method waits for input from the user or a timeout, the return val indicates whether it was successful.
 bool readInput(chrono::milliseconds timeout, string& stringOut) {
     const int fileDescriptorCount = 1;
     struct pollfd pollParams = {STDIN_FILENO, POLLIN, 0};
@@ -33,12 +32,13 @@ void MainLoop()
         bool updateAvailable = readInput(timeout, inputSchedule);
         if (updateAvailable == true) {
             const bool ScheduleSuccessful = scheduleRunner.UpdateSchedule(inputSchedule);
-            programRunning = !ScheduleSuccessful;
+            programRunning = ScheduleSuccessful;
 
             // TODO possible optimisation to use fewer CPU cycles unnecessarily waking up.
             //uint16_t minutesToNextPeriod = scheduleRunner.GetMinsToNextPeriodStart();
             //timeout = chrono::duration_cast<chrono::milliseconds>(std::chrono::minutes(minutesToNextPeriod));
         }
+        scheduleRunner.CheckSchedule();
     }
 }
 

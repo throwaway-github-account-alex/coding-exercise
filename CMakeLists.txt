@@ -4,3 +4,4 @@ project(coding_exercise)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(coding_exercise main.cpp ScheduleRunner.cpp ScheduleRunner.h)
+
