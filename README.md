@@ -69,7 +69,7 @@ This works for me in the command line, with llvm clang and cmake installed along
 ##Project review
 I think I've got it working correctly, it appears to be working on my system correctly, with different schedules.
 
-![screenshot of code producing expected result given input]("/ProgramScreenshot.png" "Expected result photo given input at 2018-12-22T18-13-54")
+![screenshot of code producing expected result given input]("https://raw.githubusercontent.com/throwaway-github-account-alex/coding-exercise/master/ProgramScreenshot.png" "Expected result photo given input at 2018-12-22T18-13-54")
 
 I would have liked to get the unit testing working - and I made the mistake of attempting to setup the eco-system (CLion,
 cmake and googletest) at the same time as starting the test. I might fix the unit test build if I have some spare time. I 
