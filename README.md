@@ -67,12 +67,13 @@ This works for me in the command line, with llvm clang and cmake installed along
 `cmake --build /home/alex/Documents/coding-exercise/cmake-build-release --target all -- -j 2`
 
 ##Project review
+
 I think I've got it working correctly, it appears to be working on my system correctly, with different schedules.
 
 ![screenshot of code producing expected result given input]("https://raw.githubusercontent.com/throwaway-github-account-alex/coding-exercise/master/ProgramScreenshot.png" "Expected result photo given input at 2018-12-22T18-13-54")
 
 I would have liked to get the unit testing working - and I made the mistake of attempting to setup the eco-system (CLion,
-cmake and googletest) at the same time as starting the test. I might fix the unit test build if I have some spare time. I 
+cmake and googletest) at the same time as starting the test. I might fix the unit test build if I have some spare time. I had intended on testing it by iterating through the potential minutes in the day and with with a given schedule.
 
 I pragmatically tested the code instead, debugging through it and checking the variable values, to try and keep within
 self imposed deadlines. 
