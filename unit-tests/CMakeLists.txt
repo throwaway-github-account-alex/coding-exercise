@@ -5,4 +5,9 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(..)
 
-add_executable(unit_tests main.cpp)
+# Locate GTest
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+add_executable(unit_tests main.cpp ../ScheduleRunner.cpp)
+
+target_link_libraries(unit_tests ${GTEST_LIBRARIES} pthread)
