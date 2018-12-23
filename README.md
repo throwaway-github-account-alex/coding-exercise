@@ -14,23 +14,23 @@ Can be updated at any time to receive updates
 ## Initial thoughts
 
 The schedule representation is easily represented as a bitfield. Look ups for whether the schedule requires the heater
-to be on/off can be done in constant time O(1). Taking the current time, representing it as the total minutes passed for
- the present day and then dividing that value by the schedule precision (30 minutes).
+to be on/off can be done in constant time O(1). To do this, take the current time, convert that value as the total minutes passed for
+ the present day and then divide that value by the schedule precision (30 minutes).
 
 The number of bits required to represent the schedule (48) would stop updates to the variable from being atomic on
 32 bit systems, so if a multi-threaded design were to be used, some protection would be required in the form of mutexs
-or an 'std::atomic' wrapper. Although consideration is usually made for all variables shared between threads.
+or an `std::atomic` wrapper. Consideration is usually made for all variables shared between threads.
 
-Input from stdin is typically collected by std::getline, which blocks until a delimiter character is received, typically
- a '\n'. If this is the only way of collecting input from stdin, then a producer/consumer pattern might be appropriate,
+Input from stdin is typically collected by `std::getline`, which blocks until a delimiter character is received, typically
+ a `\n`. If this is the only way of collecting input from stdin, then a producer/consumer pattern might be appropriate,
  which would allow another thread to check the current schedule. If a timeout could be used with `std::getline`,
  then I could use the timeout to check for an update to the schedule every 30 mins, and no threading consideration would
   be required.
 
 Looking into whether I can use `std::getline` with a timeout reveals that it's possible to poll the stdin stream and the
-polling function can take a timeout parameter. However this functionality is platform specific (posix) - there's
-probably a way to do it using `boost::asio`. There's also fgets (no timeout), select (posix), poll (posix), and other IO
-methods. It's making the separate thread style look simpler.
+polling function can take a timeout parameter. However, this functionality is platform specific (posix) - there's
+probably a way to do it using `boost::asio`. There's also `fgets` (no timeout), `select` (posix), `poll` (posix), and other IO
+methods. All these different options are making the separate thread style look simpler.
 
 ### Producer / Consumer style
 
@@ -42,28 +42,25 @@ or kill the thread, if the user decides to quit.
 
 ### Single event loop style
 + No consideration is required for threading, potentially simplifying the code.
-- Methods to poll stdin, don't look platform independent, and looks like using a platform independent option is more
-  complex than I would like.
++ Methods to poll `stdin` don't look platform independent, and it looks like using a platform independent option is more
+  complex than I would like. However, the specification given by Ben doesn't mention that it needs to be multi-platform.
 - If the user takes a long time to input the schedule, it'll block the scheduler.
-+ The specification given by Ben doesn't mention that it needs to be multi-platform.
 
-I imagine with both of these patterns will be as equally unit testable, so long as the key components are separated out.
- Additionally, by overriding the time input it should be possible to check the behavior over an entire day.
+I imagine that both of these patterns will be equally unit testable, so long as the key components are separated out.
+ Additionally, by overriding the time input it should be possible to check the behaviour over an entire day.
 
 ## Assumptions
-+ MVP refers to minimum viable product.
-+ The schedule reads from left to right, with the start being the left point.
++ `MVP` refers to minimum viable product.
++ The schedule reads from left to right, with the start being the left most point.
 + It's OK to stop the program with any invalid input.
-+ It's implied, but not explicitly said, only output changes to the current heater state are written, rather than
++ It's implied, but not explicitly said, that only output changes to the current heater state are written, rather than
   outputs every 30 minutes.
 
   If the hardware's anything like the hardware I work with, I would have thought a more
   explicit output as frequently as possible would be better...
-+ '\n' delimits the input schedule string.
-+ The initial heater state is OFF, however I could print OFF at start if the state were to be ambiguous.
-+ Responsiveness to user input.
-        I'll assume, faster is better.
-        If the schedule updates, and the current 30 minute period changes heater status changes, the program should update the heater status immediately, rather than waiting until the next 30 minute period.
++ `\n` delimits the input schedule string.
++ The initial heater state is OFF, however I could print OFF at start if the initial heater state were to be ambiguous.
++ Regarding responsiveness to user input, I'll assume faster is better. If the schedule updates, and the current 30 minute period changes heater status changes, the program should update the heater status immediately, rather than waiting until the next 30 minute period.
 
 ## How to build
 
@@ -81,7 +78,7 @@ This works for me in the command line, with llvm clang and cmake installed along
 
 ## Project review
 
-I think I've got it working correctly, it appears to be working on my system correctly, with different schedules.
+I believe I've got it working correctly; it appears to be working on my system correctly, with different schedules.
 
 ![Expected result photo given input at 2018-12-22T18-13-54](https://raw.githubusercontent.com/throwaway-github-account-alex/coding-exercise/master/ProgramScreenshot.png)
 
@@ -89,7 +86,7 @@ I made the mistake of attempting to setup the eco-system (CLion, cmake and googl
 test. I got the unit test build working the morning after with some fresh eyes.
 
 In summary, I pragmatically tested the code, debugging through it and checking the variable values, to try and keep within
-self imposed deadlines. I ran a system test overnight (it was fine). Then (after I got my system sorted) I implemented the unit tests and then added bells and whistles (intro text) and cleaned up the code.
+self-imposed deadlines. I ran a system test overnight (it was fine). Then (after I got my system sorted) I implemented the unit tests and then added bells and whistles (intro text) and cleaned up the code.
 
 Here's the unit test output
 > [==========] Running 11 tests from 1 test case.
@@ -126,4 +123,4 @@ Here's the unit test output
 
 Merry Christmas chaps!
 
-Thanks very much for considering me, I think I've enjoyed all of the parts of the interview, especially this part. C++11/20 is becoming as enjoyable to use as Python, but with strong type checking.
+Thanks very much for considering me; I've enjoyed all of the parts of the interview, especially this part. C++11/20 is becoming as easy to use as Python.
