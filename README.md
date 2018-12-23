@@ -86,10 +86,10 @@ I think I've got it working correctly, it appears to be working on my system cor
 ![Expected result photo given input at 2018-12-22T18-13-54](https://raw.githubusercontent.com/throwaway-github-account-alex/coding-exercise/master/ProgramScreenshot.png)
 
 I made the mistake of attempting to setup the eco-system (CLion, cmake and googletest) at the same time as starting the
-test. I got unit test build working the morning after with some fresh eyes.
+test. I got the unit test build working the morning after with some fresh eyes.
 
 In summary, I pragmatically tested the code, debugging through it and checking the variable values, to try and keep within
-self imposed deadlines. I ran a system test overnight (it was fine). Then (after I got my system sorted) I implemented the unit tests.
+self imposed deadlines. I ran a system test overnight (it was fine). Then (after I got my system sorted) I implemented the unit tests and then added bells and whistles (intro text) and cleaned up the code.
 
 Here's the unit test output
 > [==========] Running 11 tests from 1 test case.
@@ -126,5 +126,4 @@ Here's the unit test output
 
 Merry Christmas chaps!
 
-Thanks very much for considering me, I think I've enjoyed all of the parts of the interview, even the telephone stage,
-despite not going particularly well.
+Thanks very much for considering me, I think I've enjoyed all of the parts of the interview, especially this part. C++11/20 is becoming as enjoyable to use as Python, but with strong type checking.
