@@ -44,19 +44,25 @@ or kill the thread, if the user decides to quit.
 + No consideration is required for threading, potentially simplifying the code.
 - Methods to poll stdin, don't look platform independent, and looks like using a platform independent option is more
   complex than I would like.
+- If the user takes a long time to input the schedule, it'll block the scheduler.
 + The specification given by Ben doesn't mention that it needs to be multi-platform.
 
 I imagine with both of these patterns will be as equally unit testable, so long as the key components are separated out.
  Additionally, by overriding the time input it should be possible to check the behavior over an entire day.
 
 ## Assumptions
++ MVP refers to minimum viable product.
 + It's OK to stop the program with any invalid input.
 + It's implied, but not explicitly said, only output changes to the current heater state are written, rather than
   outputs every 30 minutes.
+
+  If the hardware's anything like the hardware I work with, I would have thought a more
+  explicit output as frequently as possible would be better...
 + '\n' delimits the input schedule string.
++ The initial heater state is OFF, however I could print OFF at start if the state were to be ambiguous.
 + Responsiveness to user input.
-+ I'll assume, faster is better.
-+ If the schedule updates, and the current 30 minute period changes heater status changes, the program should update the heater status immediately, rather than waiting until the next 30 minute period.
+        I'll assume, faster is better.
+        If the schedule updates, and the current 30 minute period changes heater status changes, the program should update the heater status immediately, rather than waiting until the next 30 minute period.
 
 ## How to build
 
@@ -74,8 +80,8 @@ I think I've got it working correctly, it appears to be working on my system cor
 
 ![Expected result photo given input at 2018-12-22T18-13-54](https://raw.githubusercontent.com/throwaway-github-account-alex/coding-exercise/master/ProgramScreenshot.png)
 
-I would have liked to get the unit testing working - and I made the mistake of attempting to setup the eco-system (CLion,
-cmake and googletest) at the same time as starting the test. I might fix the unit test build if I have some spare time. I had intended on testing it by iterating through the potential minutes in the day and with with a given schedule.
+I made the mistake of attempting to setup the eco-system (CLion, cmake and googletest) at the same time as starting the
+test. I got unit test build working the morning after with some fresh eyes.
 
 I pragmatically tested the code instead, debugging through it and checking the variable values, to try and keep within
 self imposed deadlines. 
