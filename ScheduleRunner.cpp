@@ -14,13 +14,8 @@ using namespace std;
 ScheduleRunner::ScheduleRunner() :
     m_currentHeaterOutput(false)
 {
-
+    m_schedule.reset();
 }
-
-ScheduleRunner::~ScheduleRunner()
-{
-
-};
 
 bool ScheduleRunner::UpdateSchedule(const string& scheduleStr)
 {
@@ -94,12 +89,11 @@ void ScheduleRunner::UpdateHeaterState(bool heaterState)
 bool ScheduleRunner::GetHeaterStatus(const uint16_t currentTimeInMinutes) const
 {
     // Work out the bit index for the timer, make sure we can't go over that index
-    uint16_t thirtySecondPeriodIndex = currentTimeInMinutes / 30;
+    uint16_t thirtySecondPeriodIndex = currentTimeInMinutes / MinutesInEachSchedulerPeriod;
     if (thirtySecondPeriodIndex >= ScheduleBitSize) // Shouldn't happen, regardless of leap seconds, etc.
     {
         throw std::logic_error("An error has been made, there appears to be more minutes in the day than possible.");
     }
 
-    std::bitset<ScheduleBitSize> schedule = m_schedule;
-    return schedule[thirtySecondPeriodIndex];
+    return m_schedule[thirtySecondPeriodIndex];
 }

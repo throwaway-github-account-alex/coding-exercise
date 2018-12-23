@@ -52,6 +52,7 @@ I imagine with both of these patterns will be as equally unit testable, so long 
 
 ## Assumptions
 + MVP refers to minimum viable product.
++ The schedule reads from left to right, with the start being the left point.
 + It's OK to stop the program with any invalid input.
 + It's implied, but not explicitly said, only output changes to the current heater state are written, rather than
   outputs every 30 minutes.
@@ -68,11 +69,15 @@ I imagine with both of these patterns will be as equally unit testable, so long 
 
 This works for me in the command line, with llvm clang and cmake installed along with [CLion](https://www.jetbrains.com/clion/).
 
-#### clean
-`cmake --build /home/alex/Documents/coding-exercise/cmake-build-release --target clean -- -j 2`
+### Program
 
 #### Build release
-`cmake --build /home/alex/Documents/coding-exercise/cmake-build-release --target all -- -j 2`
+`cmake --build /coding-exercise/cmake-build-release --target all -- -j 2`
+
+### Unit tests
+
+#### Build release
+`cmake --build /coding-exercise/unit-tests/cmake-build-release --target all -- -j 2`
 
 ## Project review
 
@@ -83,8 +88,41 @@ I think I've got it working correctly, it appears to be working on my system cor
 I made the mistake of attempting to setup the eco-system (CLion, cmake and googletest) at the same time as starting the
 test. I got unit test build working the morning after with some fresh eyes.
 
-I pragmatically tested the code instead, debugging through it and checking the variable values, to try and keep within
-self imposed deadlines. 
+In summary, I pragmatically tested the code, debugging through it and checking the variable values, to try and keep within
+self imposed deadlines. I ran a system test overnight (it was fine). Then (after I got my system sorted) I implemented the unit tests.
+
+Here's the unit test output
+> [==========] Running 11 tests from 1 test case.
+> [----------] Global test environment set-up.
+> [----------] 11 tests from ScheduleRunner
+> [ RUN      ] ScheduleRunner.UpdateSchedule_1
+> [       OK ] ScheduleRunner.UpdateSchedule_1 (0 ms)
+> [ RUN      ] ScheduleRunner.UpdateSchedule_2
+> [       OK ] ScheduleRunner.UpdateSchedule_2 (0 ms)
+> [ RUN      ] ScheduleRunner.UpdateSchedule_3
+> [       OK ] ScheduleRunner.UpdateSchedule_3 (0 ms)
+> [ RUN      ] ScheduleRunner.CheckSchedule_bad_time
+> [       OK ] ScheduleRunner.CheckSchedule_bad_time (0 ms)
+> [ RUN      ] ScheduleRunner.CheckSchedule_HeaterUpdate
+> [       OK ] ScheduleRunner.CheckSchedule_HeaterUpdate (0 ms)
+> [ RUN      ] ScheduleRunner.CheckSchedule_UpdateHeaterState_OnlyUpdateOnChange
+> [       OK ] ScheduleRunner.CheckSchedule_UpdateHeaterState_OnlyUpdateOnChange (0 ms)
+> [ RUN      ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs0
+> [       OK ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs0 (0 ms)
+> [ RUN      ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs15
+> [       OK ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs15 (0 ms)
+> [ RUN      ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs29
+> [       OK ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs29 (0 ms)
+> [ RUN      ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs31
+> [       OK ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs31 (0 ms)
+> [ RUN      ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs1441
+> [       OK ] ScheduleRunner.GetMinsToNextPeriodStart_CurrentTimeIs1441 (0 ms)
+> [----------] 11 tests from ScheduleRunner (0 ms total)
+>
+> [----------] Global test environment tear-down
+> [==========] 11 tests from 1 test case ran. (0 ms total)
+> [  PASSED  ] 11 tests.
+
 
 Merry Christmas chaps!
 

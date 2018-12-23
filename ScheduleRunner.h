@@ -16,7 +16,7 @@ class ScheduleRunner {
 public: // Public interface
     ScheduleRunner();
 
-    virtual ~ScheduleRunner();
+    virtual ~ScheduleRunner() = default;
 
     // Update the current schedule.
     // If True is returned, the update was successful. False otherwise.
@@ -40,7 +40,7 @@ protected: // internal methods
     // Get the heater status, separating this out from GetCurrentTimeMins, makes the code more unit-testable.
     bool GetHeaterStatus(std::uint16_t currentTimeInMinutes) const;
 
-public: // public member variable
+public: // public member variables
     // Updating this will change the resolution of the scheduler, for example, setting this to 15, will update the
     // expected bit size to 96 bits. Given more time, I'd consider putting this somewhere more obvious, like a constructor parameter.
     const static constexpr int MinutesInEachSchedulerPeriod = 30;
@@ -49,7 +49,7 @@ public: // public member variable
     // This is the resolution of the scheduler
     const static constexpr int ScheduleBitSize = MinutesInADay / MinutesInEachSchedulerPeriod; // = 48 bit size;
 
-private:
+protected: // Internal variables
     // The schedule (I've used a bitset here, but a unit64_t could be used as a bit field instead), however if the
     // if the resolution of the schedule changes, I can just modify it in a single location.
     std::bitset<ScheduleBitSize> m_schedule;
