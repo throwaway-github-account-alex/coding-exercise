@@ -88,6 +88,8 @@ test. I got the unit test build working the morning after with some fresh eyes.
 In summary, I pragmatically tested the code, debugging through it and checking the variable values, to try and keep within
 self-imposed deadlines. I ran a system test overnight (it was fine). Then (after I got my system sorted) I implemented the unit tests and then added bells and whistles (intro text) and cleaned up the code.
 
+There are some todo's in the code, which I've used to indicate how I would improve the code, given more time, or to demonstrate that I know other alternatives (`std::bitsset` vs using a `uint64_t` as a bit field and the operations to perform).
+
 Here's the unit test output
 > [==========] Running 11 tests from 1 test case.
 > [----------] Global test environment set-up.
